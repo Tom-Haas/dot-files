@@ -1,0 +1,1 @@
+set editor='bash -lc "mvim -f \$*" mvim '
