@@ -106,3 +106,4 @@ endif
 
 set wrap               "wrap words visually
 set linebreak          "only wrap at a character in 'breakat' option
+inoremap jk <ESC>
