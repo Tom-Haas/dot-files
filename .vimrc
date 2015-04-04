@@ -107,3 +107,6 @@ endif
 set wrap               "wrap words visually
 set linebreak          "only wrap at a character in 'breakat' option
 inoremap jk <ESC>
+
+set backupdir=~/.vim/backup,.  "put the backup ~ files here
+set directory=~/.vim/swap,.    "put the .swp files here
