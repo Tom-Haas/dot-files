@@ -1,20 +1,3 @@
-":set re=0
-" An example for a vimrc file.
-"
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" Last change:	2008 Dec 17
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
-
-" When started as "evim", evim.vim will already have done these settings.
-if v:progname =~? "evim"
-  finish
-endif
-
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
@@ -25,30 +8,15 @@ colorscheme desert     "syntax highlighting
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
-else
-  set backup		" keep a backup file
-endif
 set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
 
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
-
-" Don't use Ex mode, use Q for formatting
-map Q gq
-
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
+" CTRL-U / CTRL-W in insert mode delete text.  Use CTRL-G u to put deletion 
+" into a separate undo, so that you can undo them after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
-
-" In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
-  set mouse=a
-endif
+inoremap <C-W> <C-G>u<C-W>
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -102,11 +70,16 @@ endif
 ":set nocursorcolumn
 "syntax sync minlines=256
 
-:set hlsearch          "highlight search results
-
 set wrap               "wrap words visually
 set linebreak          "only wrap at a character in 'breakat' option
+
+" easier to exit insert-mode
 inoremap jk <ESC>
 
+" fix my common typo
+nnoremap :Q :q
+
+set backup		" keep a backup file
 set backupdir=~/.vim/backup,.  "put the backup ~ files here
+
 set directory=~/.vim/swap,.    "put the .swp files here
