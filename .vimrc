@@ -94,7 +94,11 @@ function! TabComplete()
   endif
   let has_slash = match(substr, '\/') != -1  "match() returns -1 if no match
   if (has_slash)
-    return "\<C-X>\<C-F>"
+    if (pumvisible() != 0)
+      return "\<C-F>"
+    else
+      return "\<C-X>\<C-F>"
+    endif
   else
     return "\<C-N>"
   endif
