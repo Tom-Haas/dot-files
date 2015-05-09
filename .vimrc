@@ -83,3 +83,21 @@ set backup		" keep a backup file
 set backupdir=~/.vim/backup,.  "put the backup ~ files here
 
 set directory=~/.vim/swap,.    "put the .swp files here
+
+function! TabComplete()
+  let line = getline('.')
+  let substr = strpart(line, 0, col('.'))    "grab line up to cursor
+  let substr = matchstr(substr, "[^ \t]*$")  "grab all non-space and tab
+                                             "characters at the end
+  if (strlen(substr)==0)
+    return "\<TAB>"
+  endif
+  let has_slash = match(substr, '\/') != -1  "match() returns -1 if no match
+  if (has_slash)
+    return "\<C-X>\<C-F>"
+  else
+    return "\<C-N>"
+  endif
+endfunction
+
+inoremap <TAB> <C-R>=TabComplete()<CR>
