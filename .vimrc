@@ -95,7 +95,7 @@ function! TabComplete()
   let has_slash = match(substr, '\/') != -1  "match() returns -1 if no match
   if (has_slash)
     if (pumvisible() != 0)
-      return "\<C-F>"
+      return "\<C-N>"
     else
       return "\<C-X>\<C-F>"
     endif
@@ -105,3 +105,6 @@ function! TabComplete()
 endfunction
 
 inoremap <TAB> <C-R>=TabComplete()<CR>
+
+" for filename-completions without a preceeding /
+inoremap f<TAB> <C-X><C-F>
