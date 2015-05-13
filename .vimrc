@@ -85,26 +85,26 @@ set backupdir=~/.vim/backup,.  "put the backup ~ files here
 set directory=~/.vim/swap,.    "put the .swp files here
 
 function! TabComplete()
-  let line = getline('.')
-  let substr = strpart(line, 0, col('.'))    "grab line up to cursor
-  let substr = matchstr(substr, "[^ \t]*$")  "grab all non-space and tab
-                                             "characters at the end
-  if (strlen(substr)==0)
-    return "\<TAB>"
+  let line = getline('.')                      "grab current line.
+  let substr = strpart(line, 0, col('.') - 1)  "grab line up to cursor.
+  let substr = matchstr(substr, "[^ \t]*$")    "grab all non-space and tab
+                                               "characters at the end.
+  if (strlen(substr)==0)                       "if preceeding characters are blank,
+    return "\<TAB>"                            "insert a <tab>.
   endif
-  let has_slash = match(substr, '\/') != -1  "match() returns -1 if no match
-  if (has_slash)
-    if (pumvisible() != 0)
-      return "\<C-N>"
-    else
-      return "\<C-X>\<C-F>"
-    endif
+  if (pumvisible() != 0)                       "if there's a popup on screen,
+    return "\<C-N>"                            "cycle through popup options (<C-N>).
+  endif
+  let has_slash = match(substr, '\/') != -1    "match() returns -1 if no match.
+  if (has_slash)                               "if there's a preceeding slash,
+    return "\<C-X>\<C-F>"                      "do a file-complete.
   else
-    return "\<C-N>"
-  endif
+    return "\<C-N>"                            "if no preceeding slash, just do a
+  endif                                        "keyword complete.
 endfunction
 
+"map <TAB> to TabComplete() function
 inoremap <TAB> <C-R>=TabComplete()<CR>
 
-" for filename-completions without a preceeding /
-inoremap f<TAB> <C-X><C-F>
+"for filename-completions without a preceeding slash
+inoremap <S-TAB> <C-X><C-F>
