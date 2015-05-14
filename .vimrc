@@ -1,17 +1,14 @@
-" Use Vim settings, rather than Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
-
 set number             "line numbers are good
 colorscheme desert     "syntax highlighting
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
+set wrap                " wrap words visually
+set linebreak           " only wrap at a character in 'breakat' option
 
 " CTRL-U / CTRL-W in insert mode delete text.  Use CTRL-G u to put deletion 
 " into a separate undo, so that you can undo them after inserting a line break.
@@ -66,12 +63,6 @@ if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
 		  \ | wincmd p | diffthis
 endif
-":set nocursorline
-":set nocursorcolumn
-"syntax sync minlines=256
-
-set wrap               "wrap words visually
-set linebreak          "only wrap at a character in 'breakat' option
 
 " easier to exit insert-mode
 inoremap jk <ESC>
@@ -79,11 +70,13 @@ inoremap jk <ESC>
 " fix my common typo
 nnoremap :Q :q
 
-set backup		" keep a backup file
-set backupdir=~/.vim/backup,.  "put the backup ~ files here
+set backup		       " keep a backup file
+set backupdir=~/.vim/backup,.  " put the backup ~ files here
+set directory=~/.vim/swap,.    " put the .swp files here
 
-set directory=~/.vim/swap,.    "put the .swp files here
-
+"makes <TAB> insert a <tab> if there's blank space in front,
+"filename-autocomplete if preceeded by a backslash or <S-TAB> is used,
+"and keyword-autocomplete otherwise.
 function! TabComplete()
   let line = getline('.')                      "grab current line.
   let substr = strpart(line, 0, col('.') - 1)  "grab line up to cursor.
@@ -108,3 +101,7 @@ inoremap <TAB> <C-R>=TabComplete()<CR>
 
 "for filename-completions without a preceeding slash
 inoremap <S-TAB> <C-X><C-F>
+
+"make autocomplete only fill characters until it becomes ambiguous,
+"and still bring up the popup menu
+set completeopt=longest,menuone
